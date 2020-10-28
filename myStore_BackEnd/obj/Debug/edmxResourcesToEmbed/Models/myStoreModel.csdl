@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="mystoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="kategori">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kode_kategori" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="user_insert" Type="Int32" />
+    <Property Name="insert_date" Type="DateTime" Precision="3" />
+    <Property Name="user_update" Type="Int32" />
+    <Property Name="update_date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="produks" Relationship="Self.FK_produk_kategori1" FromRole="kategori" ToRole="produk" />
+  </EntityType>
+  <EntityType Name="produk">
+    <Key>
+      <PropertyRef Name="id_kategori" />
+      <PropertyRef Name="id_produk" />
+    </Key>
+    <Property Name="id_kategori" Type="Int32" Nullable="false" />
+    <Property Name="id_produk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="stok" Type="Int32" />
+    <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="user_insert" Type="Int32" />
+    <Property Name="insert_date" Type="DateTime" Precision="3" />
+    <Property Name="user_update" Type="Int32" />
+    <Property Name="update_date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="kategori" Relationship="Self.FK_produk_kategori1" FromRole="produk" ToRole="kategori" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_pass" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="user_avatar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="user_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="user_level" Type="Int32" />
+  </EntityType>
+  <EntityType Name="view_all_produk">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_produk" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="id_produk" Type="Int32" Nullable="false" />
+    <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="nama_kategori" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="stok" Type="Int32" />
+    <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_produk_kategori1">
+    <End Role="kategori" Type="Self.kategori" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="produk" Type="Self.produk" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategori">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="produk">
+        <PropertyRef Name="id_kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="mystoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="kategoris" EntityType="Self.kategori" />
+    <EntitySet Name="produks" EntityType="Self.produk" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" />
+    <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
+      <End Role="kategori" EntitySet="kategoris" />
+      <End Role="produk" EntitySet="produks" />
+    </AssociationSet>
+    <EntitySet Name="perusahaans" EntityType="mystoreModel.perusahaan" />
+  </EntityContainer>
+  <EntityType Name="perusahaan">
+    <Key>
+      <PropertyRef Name="id_perusahaan" />
+    </Key>
+    <Property Name="id_perusahaan" Type="Int32" Nullable="false" />
+    <Property Name="nama_perusahaan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="alamat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="telpon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="favicon" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

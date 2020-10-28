@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mystoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="kategori">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kode_kategori" Type="varchar" MaxLength="5" />
+          <Property Name="keterangan" Type="text" />
+          <Property Name="user_insert" Type="int" />
+          <Property Name="insert_date" Type="datetime" />
+          <Property Name="user_update" Type="int" />
+          <Property Name="update_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="perusahaan">
+          <Key>
+            <PropertyRef Name="id_perusahaan" />
+          </Key>
+          <Property Name="id_perusahaan" Type="int" Nullable="false" />
+          <Property Name="nama_perusahaan" Type="varchar" MaxLength="50" />
+          <Property Name="alamat" Type="varchar" MaxLength="100" />
+          <Property Name="telpon" Type="varchar" MaxLength="20" />
+          <Property Name="favicon" Type="varchar" MaxLength="100" />
+          <Property Name="logo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="produk">
+          <Key>
+            <PropertyRef Name="id_kategori" />
+            <PropertyRef Name="id_produk" />
+          </Key>
+          <Property Name="id_kategori" Type="int" Nullable="false" />
+          <Property Name="id_produk" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kode_produk" Type="varchar" MaxLength="10" />
+          <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+          <Property Name="keterangan" Type="text" />
+          <Property Name="harga" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="stok" Type="int" />
+          <Property Name="gambar" Type="varchar" MaxLength="100" />
+          <Property Name="user_insert" Type="int" />
+          <Property Name="insert_date" Type="datetime" />
+          <Property Name="user_update" Type="int" />
+          <Property Name="update_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="varchar" MaxLength="50" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" />
+          <Property Name="user_pass" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_avatar" Type="varchar" MaxLength="100" />
+          <Property Name="user_email" Type="varchar" MaxLength="100" />
+          <Property Name="user_level" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="view_all_produk">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="id_produk" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="keterangan" Type="text" />
+          <Property Name="id_produk" Type="int" Nullable="false" />
+          <Property Name="kode_produk" Type="varchar" MaxLength="10" />
+          <Property Name="nama_kategori" Type="text" />
+          <Property Name="harga" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="stok" Type="int" />
+          <Property Name="gambar" Type="varchar" MaxLength="100" />
+          <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_produk_kategori1">
+          <End Role="kategori" Type="Self.kategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="produk" Type="Self.produk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategori">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produk">
+              <PropertyRef Name="id_kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mystoreModelStoreContainer">
+          <EntitySet Name="kategori" EntityType="Self.kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="perusahaan" EntityType="Self.perusahaan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="produk" EntityType="Self.produk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [view_all_produk].[id] AS [id], 
+    [view_all_produk].[keterangan] AS [keterangan], 
+    [view_all_produk].[id_produk] AS [id_produk], 
+    [view_all_produk].[kode_produk] AS [kode_produk], 
+    [view_all_produk].[nama_kategori] AS [nama_kategori], 
+    [view_all_produk].[harga] AS [harga], 
+    [view_all_produk].[stok] AS [stok], 
+    [view_all_produk].[gambar] AS [gambar], 
+    [view_all_produk].[nama_produk] AS [nama_produk]
+    FROM [dbo].[view_all_produk] AS [view_all_produk]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
+            <End Role="kategori" EntitySet="kategori" />
+            <End Role="produk" EntitySet="produk" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mystoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="kategori">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kode_kategori" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="user_insert" Type="Int32" />
+          <Property Name="insert_date" Type="DateTime" Precision="3" />
+          <Property Name="user_update" Type="Int32" />
+          <Property Name="update_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="produks" Relationship="Self.FK_produk_kategori1" FromRole="kategori" ToRole="produk" />
+        </EntityType>
+        <EntityType Name="produk">
+          <Key>
+            <PropertyRef Name="id_kategori" />
+            <PropertyRef Name="id_produk" />
+          </Key>
+          <Property Name="id_kategori" Type="Int32" Nullable="false" />
+          <Property Name="id_produk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="stok" Type="Int32" />
+          <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="user_insert" Type="Int32" />
+          <Property Name="insert_date" Type="DateTime" Precision="3" />
+          <Property Name="user_update" Type="Int32" />
+          <Property Name="update_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="kategori" Relationship="Self.FK_produk_kategori1" FromRole="produk" ToRole="kategori" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_pass" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_avatar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="user_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="user_level" Type="Int32" />
+        </EntityType>
+        <EntityType Name="view_all_produk">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="id_produk" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="id_produk" Type="Int32" Nullable="false" />
+          <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="nama_kategori" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="stok" Type="Int32" />
+          <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_produk_kategori1">
+          <End Role="kategori" Type="Self.kategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="produk" Type="Self.produk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategori">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produk">
+              <PropertyRef Name="id_kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mystoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="kategoris" EntityType="Self.kategori" />
+          <EntitySet Name="produks" EntityType="Self.produk" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" />
+          <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
+            <End Role="kategori" EntitySet="kategoris" />
+            <End Role="produk" EntitySet="produks" />
+          </AssociationSet>
+          <EntitySet Name="perusahaans" EntityType="mystoreModel.perusahaan" />
+        </EntityContainer>
+        <EntityType Name="perusahaan">
+          <Key>
+            <PropertyRef Name="id_perusahaan" />
+          </Key>
+          <Property Name="id_perusahaan" Type="Int32" Nullable="false" />
+          <Property Name="nama_perusahaan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="alamat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="telpon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="favicon" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mystoreModelStoreContainer" CdmEntityContainer="mystoreEntities">
+          <EntitySetMapping Name="kategoris">
+            <EntityTypeMapping TypeName="mystoreModel.kategori">
+              <MappingFragment StoreEntitySet="kategori">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="kode_kategori" ColumnName="kode_kategori" />
+                <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+                <ScalarProperty Name="user_insert" ColumnName="user_insert" />
+                <ScalarProperty Name="insert_date" ColumnName="insert_date" />
+                <ScalarProperty Name="user_update" ColumnName="user_update" />
+                <ScalarProperty Name="update_date" ColumnName="update_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produks">
+            <EntityTypeMapping TypeName="mystoreModel.produk">
+              <MappingFragment StoreEntitySet="produk">
+                <ScalarProperty Name="id_kategori" ColumnName="id_kategori" />
+                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+                <ScalarProperty Name="kode_produk" ColumnName="kode_produk" />
+                <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
+                <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+                <ScalarProperty Name="harga" ColumnName="harga" />
+                <ScalarProperty Name="stok" ColumnName="stok" />
+                <ScalarProperty Name="gambar" ColumnName="gambar" />
+                <ScalarProperty Name="user_insert" ColumnName="user_insert" />
+                <ScalarProperty Name="insert_date" ColumnName="insert_date" />
+                <ScalarProperty Name="user_update" ColumnName="user_update" />
+                <ScalarProperty Name="update_date" ColumnName="update_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="mystoreModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_pass" ColumnName="user_pass" />
+                <ScalarProperty Name="user_avatar" ColumnName="user_avatar" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_level" ColumnName="user_level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="view_all_produk">
+            <EntityTypeMapping TypeName="mystoreModel.view_all_produk">
+              <MappingFragment StoreEntitySet="view_all_produk">
+                <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+                <ScalarProperty Name="kode_produk" ColumnName="kode_produk" />
+                <ScalarProperty Name="nama_kategori" ColumnName="nama_kategori" />
+                <ScalarProperty Name="harga" ColumnName="harga" />
+                <ScalarProperty Name="stok" ColumnName="stok" />
+                <ScalarProperty Name="gambar" ColumnName="gambar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="perusahaans">
+            <EntityTypeMapping TypeName="mystoreModel.perusahaan">
+              <MappingFragment StoreEntitySet="perusahaan">
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="favicon" ColumnName="favicon" />
+                <ScalarProperty Name="telpon" ColumnName="telpon" />
+                <ScalarProperty Name="alamat" ColumnName="alamat" />
+                <ScalarProperty Name="nama_perusahaan" ColumnName="nama_perusahaan" />
+                <ScalarProperty Name="id_perusahaan" ColumnName="id_perusahaan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

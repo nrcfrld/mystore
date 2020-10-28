@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="mystoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="kategori">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kode_kategori" Type="varchar" MaxLength="5" />
+    <Property Name="keterangan" Type="text" />
+    <Property Name="user_insert" Type="int" />
+    <Property Name="insert_date" Type="datetime" />
+    <Property Name="user_update" Type="int" />
+    <Property Name="update_date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="perusahaan">
+    <Key>
+      <PropertyRef Name="id_perusahaan" />
+    </Key>
+    <Property Name="id_perusahaan" Type="int" Nullable="false" />
+    <Property Name="nama_perusahaan" Type="varchar" MaxLength="50" />
+    <Property Name="alamat" Type="varchar" MaxLength="100" />
+    <Property Name="telpon" Type="varchar" MaxLength="20" />
+    <Property Name="favicon" Type="varchar" MaxLength="100" />
+    <Property Name="logo" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="produk">
+    <Key>
+      <PropertyRef Name="id_kategori" />
+      <PropertyRef Name="id_produk" />
+    </Key>
+    <Property Name="id_kategori" Type="int" Nullable="false" />
+    <Property Name="id_produk" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kode_produk" Type="varchar" MaxLength="10" />
+    <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+    <Property Name="keterangan" Type="text" />
+    <Property Name="harga" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="stok" Type="int" />
+    <Property Name="gambar" Type="varchar" MaxLength="100" />
+    <Property Name="user_insert" Type="int" />
+    <Property Name="insert_date" Type="datetime" />
+    <Property Name="user_update" Type="int" />
+    <Property Name="update_date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="varchar" MaxLength="50" />
+    <Property Name="user_name" Type="varchar" MaxLength="50" />
+    <Property Name="user_pass" Type="nvarchar" MaxLength="100" />
+    <Property Name="user_avatar" Type="varchar" MaxLength="100" />
+    <Property Name="user_email" Type="varchar" MaxLength="100" />
+    <Property Name="user_level" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="view_all_produk">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_produk" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="keterangan" Type="text" />
+    <Property Name="id_produk" Type="int" Nullable="false" />
+    <Property Name="kode_produk" Type="varchar" MaxLength="10" />
+    <Property Name="nama_kategori" Type="text" />
+    <Property Name="harga" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="stok" Type="int" />
+    <Property Name="gambar" Type="varchar" MaxLength="100" />
+    <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_produk_kategori1">
+    <End Role="kategori" Type="Self.kategori" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="produk" Type="Self.produk" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategori">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="produk">
+        <PropertyRef Name="id_kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="mystoreModelStoreContainer">
+    <EntitySet Name="kategori" EntityType="Self.kategori" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="perusahaan" EntityType="Self.perusahaan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="produk" EntityType="Self.produk" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [view_all_produk].[id] AS [id], 
+    [view_all_produk].[keterangan] AS [keterangan], 
+    [view_all_produk].[id_produk] AS [id_produk], 
+    [view_all_produk].[kode_produk] AS [kode_produk], 
+    [view_all_produk].[nama_kategori] AS [nama_kategori], 
+    [view_all_produk].[harga] AS [harga], 
+    [view_all_produk].[stok] AS [stok], 
+    [view_all_produk].[gambar] AS [gambar], 
+    [view_all_produk].[nama_produk] AS [nama_produk]
+    FROM [dbo].[view_all_produk] AS [view_all_produk]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
+      <End Role="kategori" EntitySet="kategori" />
+      <End Role="produk" EntitySet="produk" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
