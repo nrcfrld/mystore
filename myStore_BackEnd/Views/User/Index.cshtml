@@ -1,0 +1,54 @@
+﻿@model myStore_BackEnd.Models.user
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Templates.cshtml";
+}
+
+<!-- Page Header-->
+<header class="page-header">
+    <div class="container-fluid">
+        <h2 class="no-margin-bottom">@ViewData["breadcrumbs"]</h2>
+    </div>
+</header>
+
+<!-- Dashboard Counts Section-->
+<section class="dashboard-counts no-padding-bottom">
+    <div class="container-fluid">
+        <div class="row bg-white has-shadow">
+            <!-- Untuk Isi Body-->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" style="width:100%" id="tblproduk">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th class="text-center noExport">Avatar</th>
+                            <th>Email</th>
+                            <th>Level</th>
+                            <th class="text-center noExport">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in (dynamic)ViewData["users"])
+                        {
+            <tr>
+                <td>@Html.Encode(user.id_user)</td>
+                <td>@Html.Encode(user.user_id)</td>
+                <td>@Html.Encode(user.user_name)</td>
+                <td class="text-center"><img src="@Url.Content( @Html.Encode(user.user_avatar == "" ? "https://ui-avatars.com/api/?name="+ user.user_name + "&color=7F9CF5&background=EBF4FF" : user.user_avatar) )" width="50%" class="img-thumbnail rounded-circle"></td>
+                <td>@Html.Encode(user.user_email)</td>
+                <td>@Html.Encode(user.user_level)</td>
+                <td class="text-center text-nowrap">
+                    @Html.ActionLink("Edit", "Edit", "Produk", new { id = user.id_user }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Delete", "DeleteProduk", "Produk", new { id = user.id_user }, new { id = "btndelete", @class = "btn btn-danger btn-sm", onclick = "return confirm('Benar Akan Di Hapus data ini?');" })
+                </td>
+            </tr>}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>

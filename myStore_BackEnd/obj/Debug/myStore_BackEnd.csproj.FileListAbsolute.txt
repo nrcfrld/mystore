@@ -80,3 +80,4 @@ C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.SqlServer.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.xml
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.SqlServer.xml
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csprojAssemblyReference.cache

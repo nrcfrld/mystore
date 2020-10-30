@@ -51,31 +51,40 @@
                 </div>
                 <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
                 <ul class="list-unstyled">
-                    <li class="active">@Html.ActionLink("Home", "Index", "Dashoard", null, new { @class = "con-home" }) </li>
-                    <li>@Html.ActionLink(" Produk", "Index", "Produk", null, new { @class = "icon-grid" })</li>
-                    <li>@Html.ActionLink(" Kategori", "Index", "Kategori", null, new { @class = "fa fa-bar-chart" })</li>
-                    <li>@Html.ActionLink(" User", "Index", "AccountUser", null, new { @class = "fa fa-user" })</li>
-                    <li>@Html.ActionLink(" Transaksi", "Index", "Transaksi", null, new { @class = "fa fa-cart" })</li>
+                    <li class="active"><a href="@Url.Action("Index", "Dashboard")"><i class="icon-home"></i> Home</a></li>
+                    <li><a href="@Url.Action("Index", "Produk")"><i class="icon-grid"></i> Produk</a></li>
+                    <li><a href="@Url.Action("Index", "Kategori")"><i class="fa fa-bar-chart-o"></i> Kategori</a></li>
+                    <li><a href="@Url.Action("Index", "User")"><i class="fa fa-users"></i> User</a></li>
+                    <li>
+                        <a href="@Url.Action("Index", "Transaksi")">
+                            <i class="fa fa-shopping-cart"></i>
+                            Transaksi
+                        </a>
+                    </li>
                 </ul>
 
                 <span class="heading">Laporan</span>
                 <ul class="list-unstyled">
-                    <li> @Html.ActionLink("Laporan Penjualan", "Index", "Laporan", null, new { @class = "fa fa-cart" })</li>
+                    <li><a href="@Url.Action("Index", "Laporan")"><i class="fa fa-shopping-cart"></i> Laporan Penjualan</a></li>
                     <li>
                         <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">
-                            <i class="icon-interface-windows"></i>Laporan Master Data
+                            <i class="fa fa-file-o"></i> Laporan Master Data
                         </a>
                         <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                            <li>@Html.ActionLink(" Data Kategori", "LaporanKategori", "Laporan", null, new { @class = "fa fa-calculator" })</li>
-                            <li>@Html.ActionLink(" Data Produk", "LaporaProduk", "Laporan", null, new { @class = "fa fa-calendar" })</li>
-                            <li>@Html.ActionLink("Data User", "LaporaUsers", "Laporan", null, new { @class = "fa fa-user" })</li>
+                            <li><a href="@Url.Action("LaporanKategori", "Laporan")"><i class="fa fa-calculator"></i> Data Kategori</a></li>
+                            <li><a href="@Url.Action("LaporanProduk", "Laporan")"><i class="fa fa-calendar"></i> Data Produk</a></li>
+                            <li><a href="@Url.Action("LaporanUser", "Laporan")"><i class="fa fa-users"></i> Data User</a></li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("Logoff", "Index", "Dashoard", null, new { @class = "icon-interface-windows" }) </li>
                 </ul>
-
-
-
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="@Url.Action("Index", "Dashboard")">
+                            <i class="fa fa-sign-out"></i>
+                            Log Off
+                        </a>
+                    </li>
+                </ul>
             </nav>
 
             <div class="content-inner">
