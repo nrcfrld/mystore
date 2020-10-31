@@ -1,0 +1,77 @@
+﻿@model myStore_BackEnd.Models.produk
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/Templates.cshtml";
+}
+
+<header class="page-header">
+    <div class="container-fluid">
+        <h2 class="no-margin-bottom">Edit Produk</h2>
+    </div>
+</header>
+
+<!-- Dashboard Counts Section-->
+<section class="dashboard-counts no-padding-bottom">
+    <div class="container-fluid">
+            @using (Html.BeginForm("Update", "Produk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+        <div class="row bg-white has-shadow">
+
+                    <div class="col-12">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.id_produk)
+
+                        <div class="form-group">
+                            <label>Kategori :</label>
+                            @Html.DropDownListFor(model => model.id_kategori, new SelectList((System.Collections.IEnumerable)ViewData["kategori"], "id", "keterangan"), new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kode Produk :</label>
+                            @Html.TextBoxFor(model => model.kode_produk, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nama Produk :</label>
+                            @Html.TextBoxFor(model => model.nama_produk, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Keterangan :</label>
+                            @Html.TextAreaFor(model => model.keterangan, new { @class = "ckeditor" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Harga :</label>
+                            @Html.TextBoxFor(model => model.harga, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Stok :</label>
+                            @Html.TextBoxFor(model => model.stok, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gambar</label>
+                            <div class="custom-file">
+                                @Html.TextBoxFor(model => model.stok, new { type = "file", @class = "custom-file-input", accept = "image/*", id = "gambar" })
+                                <label class="custom-file-label" for="gambar">Pilih Gambar</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <img src="@Url.Content(Model.gambar)" alt="@Model.nama_produk" width="20%" class="img-thumbnail"/>
+                        </div>
+
+                    </div>
+                    <div class="col-12">
+                        <button type="reset" class="btn btn-secondary">Batal</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Benar akan disimpan data ini ?')">Update</button>
+                    </div>
+
+        </div>
+            }
+    </div>
+</section>

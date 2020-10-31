@@ -1,9 +1,69 @@
 ﻿@model myStore_BackEnd.Models.ProdukModel
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/Templates.cshtml";
-}
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Templates.cshtml"; }
+
+<!-- Modal -->
+<div class="modal fade" id="addProdukModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @using (Html.BeginForm("Create", "Produk", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Produk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Kategori :</label>
+                        @Html.DropDownList("id_kategori", new SelectList((System.Collections.IEnumerable)ViewData["kategori"], "id", "keterangan"), new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kode Produk :</label>
+                        @Html.TextBox("kode_produk", "", new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nama Produk :</label>
+                        @Html.TextBox("nama_produk", "", new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Keterangan :</label>
+                        @Html.TextArea("keterangan", "", new { @class = "ckeditor" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Harga :</label>
+                        @Html.TextBox("harga", "", new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stok :</label>
+                        @Html.TextBox("stok", "", new { @class = "form-control" })
+                    </div>
+                
+                    <div class="form-group">
+                        <label>Gambar</label>
+                        <div class="custom-file">
+                            @Html.TextBox("gambar", "", new { type = "file", @class = "custom-file-input", accept = "image/*", id = "gambar" })
+                            <label class="custom-file-label" for="gambar">Pilih Gambar</label>
+                        </div>
+                    </div>
+            
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Benar akan disimpan data ini ?')">Simpan</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!-- End Modal -->
 
 <!-- Page Header-->
 <header class="page-header">
@@ -34,20 +94,19 @@
                     <tbody>
                         @foreach (var pd in (dynamic)ViewData["view_produk"])
                         {
-                        <tr>
-                                <td>@Html.Encode(pd.id_produk)</td>
-                                <td>@Html.Encode(pd.nama_kategori)</td>
-                                <td>@Html.Encode(pd.kode_produk)</td>
-                                <td>@Html.Encode(pd.nama_produk)</td>
-                                <td>@Html.Encode(pd.harga)</td>
-                                <td>@Html.Encode(pd.stok)</td>
-                                <td><img src="@Url.Content( @Html.Encode(pd.gambar) )" width="40%" class="img-thumbnail"></td>
-                                <td class="text-center text-nowrap">
-                                    @Html.ActionLink("Edit", "Edit", "Produk", new { id = pd.id_produk }, new { @class = "btn btn-primary btn-sm" })
-                                    @Html.ActionLink("Delete", "DeleteProduk", "Produk", new { id = pd.id_produk }, new { id = "btndelete", @class = "btn btn-danger btn-sm", onclick = "return confirm('Benar Akan Di Hapus data ini?');" })
-                                </td>
-                            </tr>            
-                        }
+            <tr>
+                <td>@Html.Encode(pd.id_produk)</td>
+                <td>@Html.Encode(pd.nama_kategori)</td>
+                <td>@Html.Encode(pd.kode_produk)</td>
+                <td>@Html.Encode(pd.nama_produk)</td>
+                <td>@Html.Encode(pd.harga)</td>
+                <td>@Html.Encode(pd.stok)</td>
+                <td><img src="@Url.Content(@Html.Encode(pd.gambar))" width="40%" class="img-thumbnail"></td>
+                <td class="text-center text-nowrap">
+                    @Html.ActionLink("Edit", "EditProduk", "Produk", new { id = pd.id_produk }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Delete", "DeleteProduk", "Produk", new { id = pd.id_produk }, new { id = "btndelete", @class = "btn btn-danger btn-sm", onclick = "return confirm('Benar Akan Di Hapus data ini?');" })
+                </td>
+            </tr>}
                     </tbody>
                 </table>
             </div>

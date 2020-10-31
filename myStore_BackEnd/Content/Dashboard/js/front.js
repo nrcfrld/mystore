@@ -2,11 +2,11 @@ $(document).ready(function () {
 
     'use strict';
 
-    // Untuk Dashboard Produk
-    //$('#tblproduk').DataTable({
-    //    "iDisplayLength": 5,
-    //    "lengthMenu" : [[5, 10, 15, -1] , [5, 10, 15, "All"]]
-    //});
+    $("#gambar").on("change", function () {
+        var filename = $(this).val().split("\\").pop();
+        console.log(filename);
+        $(this).siblings(".custom-file-label").addClass("selected").html(filename);
+    });
 
     $('#tblproduk').DataTable({
         "iDisplayLength": 5,
@@ -16,8 +16,7 @@ $(document).ready(function () {
             {
                 text: 'Tambah Data',
                 action: function (e, dt, node, config) {
-                    alert( 'Button activated' );
-                    //$("#addModalProduk").modal("show");
+                    $("#addProdukModal").modal("show");
                 }
             },
             {

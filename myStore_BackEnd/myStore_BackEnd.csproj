@@ -1227,6 +1227,7 @@
     <Content Include="Views\Produk\Index.cshtml" />
     <Content Include="Views\Kategori\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Produk\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
