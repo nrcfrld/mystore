@@ -121,6 +121,12 @@ namespace myStore_BackEnd.Controllers
                         if (Request.Files.Count > 0)
                           {
                             // TODO : Cek File Gambar dan Hapus File Gambar Lama
+                            var pm = new ProdukModel();
+                            filename = pm.GetFileGambar(prd.id_produk);
+                            if (System.IO.File.Exists(Server.MapPath(filename)))
+                            {
+                                System.IO.File.Delete(Server.MapPath(filename));
+                            }
 
                             var file = Request.Files[0];
                             path = Path.Combine(Server.MapPath("~/Content/images/"), "");
