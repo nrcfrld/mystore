@@ -19,5 +19,23 @@ namespace myStore_BackEnd.Controllers
 
             return View();
         }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var category = db.kategoris.SingleOrDefault(p => p.id == id);
+                if (category != null)
+                {
+                    db.kategoris.Remove(category);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -6,15 +6,11 @@ using System.Web.Mvc;
 
 namespace myStore_BackEnd.Controllers
 {
-    public class DashboardController : Controller
+    public class LoginController : Controller
     {
-        // GET: Dashboard
+        // GET: Login
         public ActionResult Index()
         {
-            if(Session["user_level"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
             return View();
         }
     }

@@ -1,9 +1,68 @@
 ﻿@model myStore_BackEnd.Models.user
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/Templates.cshtml";
-}
+@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/Templates.cshtml"; }
+
+<!-- Modal -->
+@*<div class="modal fade" id="addProdukModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @using (Html.BeginForm("Create", "Kategori", FormMethod.Post))
+    {
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Tambah Produk</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Kategori :</label>
+                @Html.DropDownList("id_kategori", new SelectList((System.Collections.IEnumerable)ViewData["kategori"], "id", "keterangan"), new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Kode Produk :</label>
+                @Html.TextBox("kode_produk", "", new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Nama Produk :</label>
+                @Html.TextBox("nama_produk", "", new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Keterangan :</label>
+                @Html.TextArea("keterangan", "", new { @class = "ckeditor" })
+            </div>
+
+            <div class="form-group">
+                <label>Harga :</label>
+                @Html.TextBox("harga", "", new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Stok :</label>
+                @Html.TextBox("stok", "", new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                <label>Gambar</label>
+                <div class="custom-file">
+                    @Html.TextBox("gambar", "", new { type = "file", @class = "custom-file-input", accept = "image/*", id = "gambar" })
+                    <label class="custom-file-label" for="gambar">Pilih Gambar</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Benar akan disimpan data ini ?')">Simpan</button>
+        </div>
+    </div>
+</div>}
+</div>*@
+<!-- End Modal -->
 
 <!-- Page Header-->
 <header class="page-header">
@@ -44,7 +103,8 @@
                     @Html.ActionLink("Edit", "Edit", "Produk", new { id = user.id_user }, new { @class = "btn btn-primary btn-sm" })
                     @Html.ActionLink("Delete", "DeleteProduk", "Produk", new { id = user.id_user }, new { id = "btndelete", @class = "btn btn-danger btn-sm", onclick = "return confirm('Benar Akan Di Hapus data ini?');" })
                 </td>
-            </tr>}
+            </tr>
+}
                     </tbody>
                 </table>
             </div>

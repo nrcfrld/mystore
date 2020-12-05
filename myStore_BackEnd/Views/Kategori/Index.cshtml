@@ -34,8 +34,8 @@
                                 <td>@Html.Encode(category.kode_kategori)</td>
                                 <td>@Html.Encode(category.keterangan)</td>
                                 <td class="text-center text-nowrap">
-                                    <a href="@Url.Action("Edit", "Produk", new { id = category.id})" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data"><i class="fa fa-edit"></i></a>
-                                    <a href="@Url.Action("Delete", "Produk", new { id = category.id})" class="btn btn-danger btn-sm" id="btndelete" onclick="return confirm('Benar Akan Di Hapus data ini?');" data-toggle="tooltip" data-placement="top" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    <a href="@Url.Action("Edit", "Kategori", new { id = category.id})" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                    <a href="@Url.Action("Delete", "Kategori", new { id = category.id})" class="btn btn-danger btn-sm" id="btndelete" onclick="return confirm('Benar Akan Di Hapus data ini?');" data-toggle="tooltip" data-placement="top" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
