@@ -6,10 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
+using myStore_BackEnd.App_Code;
 using myStore_BackEnd.Models;
 
 namespace myStore_BackEnd.Controllers
 {
+    [GlobalSession]
     public class ProdukController : Controller
     {
         mystoreEntities db = new mystoreEntities();

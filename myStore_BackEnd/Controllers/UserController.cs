@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using myStore_BackEnd.App_Code;
 using myStore_BackEnd.Models;
 
 namespace myStore_BackEnd.Controllers
 {
+    [GlobalSession]
     public class UserController : Controller
     {
         mystoreEntities db = new mystoreEntities();

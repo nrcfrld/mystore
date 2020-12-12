@@ -1,3 +1,4 @@
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csproj.CoreCompileInputs.cache
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\myStore_BackEnd.dll.config
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\myStore_BackEnd.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\myStore_BackEnd.pdb
@@ -51,6 +52,8 @@ C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\roslyn\vbc.rsp
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\roslyn\VBCSCompiler.exe
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Antlr3.Runtime.dll
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.dll
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.SqlServer.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Newtonsoft.Json.dll
@@ -62,6 +65,8 @@ C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.WebPages.Depl
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.WebPages.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.WebPages.Razor.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\WebGrease.dll
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.xml
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.SqlServer.xml
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.Helpers.xml
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.Mvc.xml
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.Optimization.xml
@@ -72,12 +77,6 @@ C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.WebPages.Razo
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Newtonsoft.Json.xml
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Antlr3.Runtime.pdb
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csproj.CoreCompileInputs.cache
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csproj.CopyComplete
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.pdb
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.dll
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.SqlServer.dll
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.xml
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\EntityFramework.SqlServer.xml
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csprojAssemblyReference.cache
