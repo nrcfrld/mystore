@@ -31,6 +31,10 @@ namespace myStore_BackEnd.Models
                 {
                     myLevel = "Staf";
                 }
+                else if (user.user_level == 3)
+                {
+                    myLevel = "Accounting";
+                }
                 else
                 {
                     myLevel = "User";

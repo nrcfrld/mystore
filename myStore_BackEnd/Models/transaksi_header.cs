@@ -12,28 +12,24 @@ namespace myStore_BackEnd.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class produk
+    public partial class transaksi_header
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public produk()
+        public transaksi_header()
         {
             this.transaksi_detail = new HashSet<transaksi_detail>();
         }
     
-        public int id_kategori { get; set; }
-        public int id_produk { get; set; }
-        public string kode_produk { get; set; }
-        public string nama_produk { get; set; }
+        public int id_transaksi { get; set; }
+        public Nullable<System.DateTime> tanggal { get; set; }
+        public Nullable<int> id_customer { get; set; }
         public string keterangan { get; set; }
-        public Nullable<decimal> harga { get; set; }
-        public Nullable<int> stok { get; set; }
-        public string gambar { get; set; }
-        public Nullable<int> user_insert { get; set; }
-        public Nullable<System.DateTime> insert_date { get; set; }
-        public Nullable<int> user_update { get; set; }
-        public Nullable<System.DateTime> update_date { get; set; }
+        public Nullable<decimal> total_belanja { get; set; }
+        public Nullable<decimal> pajak { get; set; }
+        public Nullable<decimal> total_bayar { get; set; }
+        public Nullable<decimal> bayar { get; set; }
+        public Nullable<decimal> kembalian { get; set; }
     
-        public virtual kategori kategori { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<transaksi_detail> transaksi_detail { get; set; }
     }

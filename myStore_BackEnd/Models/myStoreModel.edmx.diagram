@@ -6,11 +6,17 @@
     <edmx:Diagrams>
       <Diagram DiagramId="d27b5763dc5d40b28e04bc3805dc63f4" Name="Diagram1" ZoomLevel="115">
         <EntityTypeShape EntityType="mystoreModel.kategori" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="mystoreModel.produk" Width="1.5" PointX="2.875" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="mystoreModel.user" Width="1.5" PointX="5" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="mystoreModel.view_all_produk" Width="1.5" PointX="7" PointY="1.625" IsExpanded="true" />
-        <AssociationConnector Association="mystoreModel.FK_produk_kategori1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="mystoreModel.perusahaan" Width="1.5" PointX="9.625" PointY="1.5" />
+        <EntityTypeShape EntityType="mystoreModel.transaksi_detail" Width="1.5" PointX="5.125" PointY="5.875" />
+        <EntityTypeShape EntityType="mystoreModel.transaksi_header" Width="1.5" PointX="0.75" PointY="6" />
+        <AssociationConnector Association="mystoreModel.FK_transaksi_detail_transaksi_header" />
+        <EntityTypeShape EntityType="mystoreModel.produk" Width="1.5" PointX="3" PointY="8.875" />
+        <AssociationConnector Association="mystoreModel.FK_produk_kategori1" />
+        <AssociationConnector Association="mystoreModel.FK_transaksi_detail_produk" />
+        <EntityTypeShape EntityType="mystoreModel.customer" Width="1.5" PointX="7.375" PointY="5.75" />
+        <EntityTypeShape EntityType="mystoreModel.view_transaksi" Width="1.5" PointX="9.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

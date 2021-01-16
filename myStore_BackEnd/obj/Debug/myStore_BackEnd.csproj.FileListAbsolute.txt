@@ -1,4 +1,3 @@
-C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csproj.CoreCompileInputs.cache
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\myStore_BackEnd.dll.config
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\myStore_BackEnd.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\myStore_BackEnd.pdb
@@ -77,6 +76,8 @@ C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\System.Web.WebPages.Razo
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Newtonsoft.Json.xml
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Antlr3.Runtime.pdb
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csprojAssemblyReference.cache
+C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csproj.CoreCompileInputs.cache
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.csproj.CopyComplete
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.dll
 C:\Users\62898\source\repos\myStore\myStore_BackEnd\obj\Debug\myStore_BackEnd.pdb

@@ -134,11 +134,15 @@
     <Compile Include="Controllers\KategoriController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProdukController.cs" />
+    <Compile Include="Controllers\TransaksiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\customer.cs">
+      <DependentUpon>myStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\kategori.cs">
       <DependentUpon>myStoreModel.tt</DependentUpon>
@@ -165,10 +169,19 @@
       <DependentUpon>myStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProdukModel.cs" />
+    <Compile Include="Models\transaksi_detail.cs">
+      <DependentUpon>myStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\transaksi_header.cs">
+      <DependentUpon>myStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\user.cs">
       <DependentUpon>myStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\view_all_produk.cs">
+      <DependentUpon>myStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\view_transaksi.cs">
       <DependentUpon>myStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -537,6 +550,8 @@
     <Content Include="Content\Dashboard\img\brand\brand-4.svg" />
     <Content Include="Content\Dashboard\img\brand\brand-5.svg" />
     <Content Include="Content\Dashboard\img\brand\brand-6.svg" />
+    <Content Include="Content\Dashboard\img\details_close.png" />
+    <Content Include="Content\Dashboard\img\details_open.png" />
     <Content Include="Content\Dashboard\img\favicon.ico" />
     <Content Include="Content\Dashboard\img\flags\16\AD.png" />
     <Content Include="Content\Dashboard\img\flags\16\AE.png" />
@@ -1232,6 +1247,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Produk\Edit.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Transaksi\Index.cshtml" />
+    <Content Include="Views\Transaksi\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

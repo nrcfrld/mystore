@@ -26,9 +26,13 @@ namespace myStore_BackEnd.Models
         }
     
         public virtual DbSet<kategori> kategoris { get; set; }
-        public virtual DbSet<produk> produks { get; set; }
         public virtual DbSet<user> users { get; set; }
         public virtual DbSet<view_all_produk> view_all_produk { get; set; }
         public virtual DbSet<perusahaan> perusahaans { get; set; }
+        public virtual DbSet<transaksi_detail> transaksi_detail { get; set; }
+        public virtual DbSet<transaksi_header> transaksi_header { get; set; }
+        public virtual DbSet<produk> produks { get; set; }
+        public virtual DbSet<customer> customers { get; set; }
+        public virtual DbSet<view_transaksi> view_transaksi { get; set; }
     }
 }

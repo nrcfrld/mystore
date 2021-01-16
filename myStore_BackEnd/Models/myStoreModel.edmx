@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="mystoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="id_customer" />
+          </Key>
+          <Property Name="id_customer" Type="int" Nullable="false" />
+          <Property Name="nama_customer" Type="varchar" MaxLength="50" />
+          <Property Name="alamat" Type="varchar" MaxLength="50" />
+          <Property Name="telpon" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="100" />
+          <Property Name="status" Type="int" />
+          <Property Name="validasi_user" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="kategori">
           <Key>
             <PropertyRef Name="id" />
@@ -30,7 +42,6 @@
         </EntityType>
         <EntityType Name="produk">
           <Key>
-            <PropertyRef Name="id_kategori" />
             <PropertyRef Name="id_produk" />
           </Key>
           <Property Name="id_kategori" Type="int" Nullable="false" />
@@ -46,11 +57,34 @@
           <Property Name="user_update" Type="int" />
           <Property Name="update_date" Type="datetime" />
         </EntityType>
+        <EntityType Name="transaksi_detail">
+          <Key>
+            <PropertyRef Name="id_transaksi_detail" />
+          </Key>
+          <Property Name="id_transaksi" Type="int" />
+          <Property Name="id_transaksi_detail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_produk" Type="int" />
+          <Property Name="jumlah" Type="int" />
+        </EntityType>
+        <EntityType Name="transaksi_header">
+          <Key>
+            <PropertyRef Name="id_transaksi" />
+          </Key>
+          <Property Name="id_transaksi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tanggal" Type="date" />
+          <Property Name="id_customer" Type="int" />
+          <Property Name="keterangan" Type="varchar" MaxLength="100" />
+          <Property Name="total_belanja" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="pajak" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="total_bayar" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="bayar" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="kembalian" Type="numeric" Precision="18" Scale="2" />
+        </EntityType>
         <EntityType Name="users">
           <Key>
             <PropertyRef Name="id_user" />
           </Key>
-          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user_id" Type="varchar" MaxLength="50" />
           <Property Name="user_name" Type="varchar" MaxLength="50" />
           <Property Name="user_pass" Type="nvarchar" MaxLength="100" />
@@ -62,10 +96,9 @@
 warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="view_all_produk">
           <Key>
-            <PropertyRef Name="id" />
             <PropertyRef Name="id_produk" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="keterangan" Type="text" />
           <Property Name="id_produk" Type="int" Nullable="false" />
           <Property Name="kode_produk" Type="varchar" MaxLength="10" />
@@ -74,6 +107,21 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
           <Property Name="stok" Type="int" />
           <Property Name="gambar" Type="varchar" MaxLength="100" />
           <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+          <Property Name="id" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'mystore.dbo.view_transaksi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="view_transaksi">
+          <Key>
+            <PropertyRef Name="id_transaksi_detail" />
+          </Key>
+          <Property Name="id_transaksi_detail" Type="int" Nullable="false" />
+          <Property Name="id_transaksi" Type="int" />
+          <Property Name="id_produk" Type="int" />
+          <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+          <Property Name="jumlah" Type="int" />
+          <Property Name="harga" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="JumlahUang" Type="numeric" Precision="29" Scale="2" />
         </EntityType>
         <Association Name="FK_produk_kategori1">
           <End Role="kategori" Type="Self.kategori" Multiplicity="1">
@@ -89,14 +137,44 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_transaksi_detail_produk">
+          <End Role="produk" Type="Self.produk" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="transaksi_detail" Type="Self.transaksi_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produk">
+              <PropertyRef Name="id_produk" />
+            </Principal>
+            <Dependent Role="transaksi_detail">
+              <PropertyRef Name="id_produk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transaksi_detail_transaksi_header">
+          <End Role="transaksi_header" Type="Self.transaksi_header" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="transaksi_detail" Type="Self.transaksi_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transaksi_header">
+              <PropertyRef Name="id_transaksi" />
+            </Principal>
+            <Dependent Role="transaksi_detail">
+              <PropertyRef Name="id_transaksi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="mystoreModelStoreContainer">
+          <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="kategori" EntityType="Self.kategori" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="perusahaan" EntityType="Self.perusahaan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="produk" EntityType="Self.produk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transaksi_detail" EntityType="Self.transaksi_detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transaksi_header" EntityType="Self.transaksi_header" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [view_all_produk].[id] AS [id], 
     [view_all_produk].[keterangan] AS [keterangan], 
     [view_all_produk].[id_produk] AS [id_produk], 
     [view_all_produk].[kode_produk] AS [kode_produk], 
@@ -104,12 +182,32 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
     [view_all_produk].[harga] AS [harga], 
     [view_all_produk].[stok] AS [stok], 
     [view_all_produk].[gambar] AS [gambar], 
-    [view_all_produk].[nama_produk] AS [nama_produk]
+    [view_all_produk].[nama_produk] AS [nama_produk], 
+    [view_all_produk].[id] AS [id]
     FROM [dbo].[view_all_produk] AS [view_all_produk]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="view_transaksi" EntityType="Self.view_transaksi" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [view_transaksi].[id_transaksi_detail] AS [id_transaksi_detail], 
+    [view_transaksi].[id_transaksi] AS [id_transaksi], 
+    [view_transaksi].[id_produk] AS [id_produk], 
+    [view_transaksi].[nama_produk] AS [nama_produk], 
+    [view_transaksi].[jumlah] AS [jumlah], 
+    [view_transaksi].[harga] AS [harga], 
+    [view_transaksi].[JumlahUang] AS [JumlahUang]
+    FROM [dbo].[view_transaksi] AS [view_transaksi]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
             <End Role="kategori" EntitySet="kategori" />
             <End Role="produk" EntitySet="produk" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transaksi_detail_produk" Association="Self.FK_transaksi_detail_produk">
+            <End Role="produk" EntitySet="produk" />
+            <End Role="transaksi_detail" EntitySet="transaksi_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transaksi_detail_transaksi_header" Association="Self.FK_transaksi_detail_transaksi_header">
+            <End Role="transaksi_header" EntitySet="transaksi_header" />
+            <End Role="transaksi_detail" EntitySet="transaksi_detail" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -127,26 +225,7 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
           <Property Name="insert_date" Type="DateTime" Precision="3" />
           <Property Name="user_update" Type="Int32" />
           <Property Name="update_date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="produks" Relationship="Self.FK_produk_kategori1" FromRole="kategori" ToRole="produk" />
-        </EntityType>
-        <EntityType Name="produk">
-          <Key>
-            <PropertyRef Name="id_kategori" />
-            <PropertyRef Name="id_produk" />
-          </Key>
-          <Property Name="id_kategori" Type="Int32" Nullable="false" />
-          <Property Name="id_produk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="stok" Type="Int32" />
-          <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="user_insert" Type="Int32" />
-          <Property Name="insert_date" Type="DateTime" Precision="3" />
-          <Property Name="user_update" Type="Int32" />
-          <Property Name="update_date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="kategori" Relationship="Self.FK_produk_kategori1" FromRole="produk" ToRole="kategori" />
+          <NavigationProperty Name="produks" Relationship="mystoreModel.FK_produk_kategori1" FromRole="kategori" ToRole="produk" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -175,30 +254,28 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
           <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="FK_produk_kategori1">
-          <End Role="kategori" Type="Self.kategori" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="produk" Type="Self.produk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="kategori">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="produk">
-              <PropertyRef Name="id_kategori" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="mystoreEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="kategoris" EntityType="Self.kategori" />
-          <EntitySet Name="produks" EntityType="Self.produk" />
           <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" />
-          <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
+          <EntitySet Name="perusahaans" EntityType="mystoreModel.perusahaan" />
+          <EntitySet Name="transaksi_detail" EntityType="mystoreModel.transaksi_detail" />
+          <EntitySet Name="transaksi_header" EntityType="mystoreModel.transaksi_header" />
+          <AssociationSet Name="FK_transaksi_detail_transaksi_header" Association="mystoreModel.FK_transaksi_detail_transaksi_header">
+            <End Role="transaksi_header" EntitySet="transaksi_header" />
+            <End Role="transaksi_detail" EntitySet="transaksi_detail" />
+          </AssociationSet>
+          <EntitySet Name="produks" EntityType="mystoreModel.produk" />
+          <AssociationSet Name="FK_produk_kategori1" Association="mystoreModel.FK_produk_kategori1">
             <End Role="kategori" EntitySet="kategoris" />
             <End Role="produk" EntitySet="produks" />
           </AssociationSet>
-          <EntitySet Name="perusahaans" EntityType="mystoreModel.perusahaan" />
+          <AssociationSet Name="FK_transaksi_detail_produk" Association="mystoreModel.FK_transaksi_detail_produk">
+            <End Role="produk" EntitySet="produks" />
+            <End Role="transaksi_detail" EntitySet="transaksi_detail" />
+          </AssociationSet>
+          <EntitySet Name="customers" EntityType="mystoreModel.customer" />
+          <EntitySet Name="view_transaksi" EntityType="mystoreModel.view_transaksi" />
         </EntityContainer>
         <EntityType Name="perusahaan">
           <Key>
@@ -210,6 +287,117 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
           <Property Name="telpon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="favicon" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="transaksi_detail">
+          <Key>
+            <PropertyRef Name="id_transaksi_detail" />
+          </Key>
+          <Property Name="id_transaksi" Type="Int32" />
+          <Property Name="id_transaksi_detail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_produk" Type="Int32" />
+          <Property Name="jumlah" Type="Int32" />
+          <NavigationProperty Name="transaksi_header" Relationship="mystoreModel.FK_transaksi_detail_transaksi_header" FromRole="transaksi_detail" ToRole="transaksi_header" />
+          <NavigationProperty Name="produk" Relationship="mystoreModel.FK_transaksi_detail_produk" FromRole="transaksi_detail" ToRole="produk" />
+        </EntityType>
+        <EntityType Name="transaksi_header">
+          <Key>
+            <PropertyRef Name="id_transaksi" />
+          </Key>
+          <Property Name="id_transaksi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tanggal" Type="DateTime" Precision="0" />
+          <Property Name="id_customer" Type="Int32" />
+          <Property Name="keterangan" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="total_belanja" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pajak" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="total_bayar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="bayar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="kembalian" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="transaksi_detail" Relationship="mystoreModel.FK_transaksi_detail_transaksi_header" FromRole="transaksi_header" ToRole="transaksi_detail" />
+        </EntityType>
+        <Association Name="FK_transaksi_detail_transaksi_header">
+          <End Type="mystoreModel.transaksi_header" Role="transaksi_header" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mystoreModel.transaksi_detail" Role="transaksi_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transaksi_header">
+              <PropertyRef Name="id_transaksi" />
+            </Principal>
+            <Dependent Role="transaksi_detail">
+              <PropertyRef Name="id_transaksi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="produk">
+          <Key>
+            <PropertyRef Name="id_produk" />
+          </Key>
+          <Property Name="id_kategori" Type="Int32" Nullable="false" />
+          <Property Name="id_produk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="stok" Type="Int32" />
+          <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="user_insert" Type="Int32" />
+          <Property Name="insert_date" Type="DateTime" Precision="3" />
+          <Property Name="user_update" Type="Int32" />
+          <Property Name="update_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="kategori" Relationship="mystoreModel.FK_produk_kategori1" FromRole="produk" ToRole="kategori" />
+          <NavigationProperty Name="transaksi_detail" Relationship="mystoreModel.FK_transaksi_detail_produk" FromRole="produk" ToRole="transaksi_detail" />
+        </EntityType>
+        <Association Name="FK_produk_kategori1">
+          <End Type="mystoreModel.kategori" Role="kategori" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mystoreModel.produk" Role="produk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategori">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="produk">
+              <PropertyRef Name="id_kategori" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transaksi_detail_produk">
+          <End Type="mystoreModel.produk" Role="produk" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="mystoreModel.transaksi_detail" Role="transaksi_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produk">
+              <PropertyRef Name="id_produk" />
+            </Principal>
+            <Dependent Role="transaksi_detail">
+              <PropertyRef Name="id_produk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="id_customer" />
+          </Key>
+          <Property Name="id_customer" Type="Int32" Nullable="false" />
+          <Property Name="nama_customer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="alamat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telpon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="validasi_user" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="view_transaksi">
+          <Key>
+            <PropertyRef Name="id_transaksi_detail" />
+          </Key>
+          <Property Name="id_transaksi_detail" Type="Int32" Nullable="false" />
+          <Property Name="id_transaksi" Type="Int32" />
+          <Property Name="id_produk" Type="Int32" />
+          <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="jumlah" Type="Int32" />
+          <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="JumlahUang" Type="Decimal" Precision="29" Scale="2" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -223,24 +411,6 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="kode_kategori" ColumnName="kode_kategori" />
                 <ScalarProperty Name="keterangan" ColumnName="keterangan" />
-                <ScalarProperty Name="user_insert" ColumnName="user_insert" />
-                <ScalarProperty Name="insert_date" ColumnName="insert_date" />
-                <ScalarProperty Name="user_update" ColumnName="user_update" />
-                <ScalarProperty Name="update_date" ColumnName="update_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="produks">
-            <EntityTypeMapping TypeName="mystoreModel.produk">
-              <MappingFragment StoreEntitySet="produk">
-                <ScalarProperty Name="id_kategori" ColumnName="id_kategori" />
-                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
-                <ScalarProperty Name="kode_produk" ColumnName="kode_produk" />
-                <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
-                <ScalarProperty Name="keterangan" ColumnName="keterangan" />
-                <ScalarProperty Name="harga" ColumnName="harga" />
-                <ScalarProperty Name="stok" ColumnName="stok" />
-                <ScalarProperty Name="gambar" ColumnName="gambar" />
                 <ScalarProperty Name="user_insert" ColumnName="user_insert" />
                 <ScalarProperty Name="insert_date" ColumnName="insert_date" />
                 <ScalarProperty Name="user_update" ColumnName="user_update" />
@@ -285,6 +455,75 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
                 <ScalarProperty Name="alamat" ColumnName="alamat" />
                 <ScalarProperty Name="nama_perusahaan" ColumnName="nama_perusahaan" />
                 <ScalarProperty Name="id_perusahaan" ColumnName="id_perusahaan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transaksi_detail">
+            <EntityTypeMapping TypeName="mystoreModel.transaksi_detail">
+              <MappingFragment StoreEntitySet="transaksi_detail">
+                <ScalarProperty Name="jumlah" ColumnName="jumlah" />
+                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+                <ScalarProperty Name="id_transaksi_detail" ColumnName="id_transaksi_detail" />
+                <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transaksi_header">
+            <EntityTypeMapping TypeName="mystoreModel.transaksi_header">
+              <MappingFragment StoreEntitySet="transaksi_header">
+                <ScalarProperty Name="kembalian" ColumnName="kembalian" />
+                <ScalarProperty Name="bayar" ColumnName="bayar" />
+                <ScalarProperty Name="total_bayar" ColumnName="total_bayar" />
+                <ScalarProperty Name="pajak" ColumnName="pajak" />
+                <ScalarProperty Name="total_belanja" ColumnName="total_belanja" />
+                <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+                <ScalarProperty Name="id_customer" ColumnName="id_customer" />
+                <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+                <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produks">
+            <EntityTypeMapping TypeName="mystoreModel.produk">
+              <MappingFragment StoreEntitySet="produk">
+                <ScalarProperty Name="update_date" ColumnName="update_date" />
+                <ScalarProperty Name="user_update" ColumnName="user_update" />
+                <ScalarProperty Name="insert_date" ColumnName="insert_date" />
+                <ScalarProperty Name="user_insert" ColumnName="user_insert" />
+                <ScalarProperty Name="gambar" ColumnName="gambar" />
+                <ScalarProperty Name="stok" ColumnName="stok" />
+                <ScalarProperty Name="harga" ColumnName="harga" />
+                <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+                <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
+                <ScalarProperty Name="kode_produk" ColumnName="kode_produk" />
+                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+                <ScalarProperty Name="id_kategori" ColumnName="id_kategori" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="mystoreModel.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="validasi_user" ColumnName="validasi_user" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="telpon" ColumnName="telpon" />
+                <ScalarProperty Name="alamat" ColumnName="alamat" />
+                <ScalarProperty Name="nama_customer" ColumnName="nama_customer" />
+                <ScalarProperty Name="id_customer" ColumnName="id_customer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="view_transaksi">
+            <EntityTypeMapping TypeName="mystoreModel.view_transaksi">
+              <MappingFragment StoreEntitySet="view_transaksi">
+                <ScalarProperty Name="JumlahUang" ColumnName="JumlahUang" />
+                <ScalarProperty Name="harga" ColumnName="harga" />
+                <ScalarProperty Name="jumlah" ColumnName="jumlah" />
+                <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
+                <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+                <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+                <ScalarProperty Name="id_transaksi_detail" ColumnName="id_transaksi_detail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

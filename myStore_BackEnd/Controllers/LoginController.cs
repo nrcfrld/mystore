@@ -35,14 +35,16 @@ namespace myStore_BackEnd.Controllers
                 {
                     Session["user_id"] = null;
                     Session["user_level"] = null;
-                    ViewBag.Message = "Invalid Login";
-                    return RedirectToAction("Index", "Login");
+                    Session["user_avatar"] = null;
+                    ViewBag.Message = "Login gagal, kesalahan username atau password";
+                    return View("Index");
                 }
 
                 Session["user_id"] = uid;
                 Session["user_level"] = user_level;
                 return RedirectToAction("Index", "Dashboard");
             }
+            ViewBag.Message = "Terjadi kesalahan";
             return RedirectToAction("Index", "Login");
         }
 

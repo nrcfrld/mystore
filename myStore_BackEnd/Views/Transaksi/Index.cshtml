@@ -1,12 +1,9 @@
-﻿@model myStore_BackEnd.Models.ProdukModel
-
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Templates.cshtml";
-    int no = 1;
 }
 
-<!-- Modal -->
 <section class="modal fade bd-example-modal-xl" id="addTransaksiModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -38,7 +35,7 @@
                         <div class="form-group">
                             <label for="contactmname">Customer</label>
                             @Html.DropDownList("customer", new SelectList((System.Collections.IEnumerable)ViewData["customer"], "id_customer", "nama_customer"),
-                                      new { @class = "form-control" })
+                                 new { @class = "form-control" })
                         </div>
 
                         <div class="form-group">
@@ -73,7 +70,7 @@
                         <div class="form-group">
                             <label for="contactmname">Customer</label>
                             @Html.DropDownList("transproduk", new SelectList((System.Collections.IEnumerable)ViewData["produk"], "id_produk", "nama_produk"),
-                                      new { @class = "form-control" })
+                                 new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="col">
@@ -133,12 +130,10 @@
         </div>
     </div>
 </section>
-<!-- End Modal -->
 
-<!-- Page Header-->
 <header class="page-header">
     <div class="container-fluid">
-        <h2 class="no-margin-bottom">@ViewData["breadcrumbs"]</h2>
+        <h2 class="no-margin-bottom">Transaksi</h2>
     </div>
 </header>
 
@@ -146,43 +141,46 @@
 <section class="dashboard-counts no-padding-bottom">
     <div class="container-fluid">
         <div class="row bg-white has-shadow">
-            <!-- Untuk Isi Body-->
+            @* Untuk Isi Body *@
+
             <div class="table-responsive">
-                <table class="table table-striped table-bordered" style="width:100%" id="tblproduk">
+                <table class="table table-striped table-bordered" style="width:100%" id="tbl-transheader">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Kategori</th>
-                            <th>Kode</th>
-                            <th>Nama Produk</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                            <th class="text-center noExport">Gambar</th>
+                            <th>#ID</th>
+                            <th>Tanggal</th>
+                            <th>ID Customer</th>
+                            <th>Total</th>
+                            <th>Pajak</th>
+                            <th>Total Bayar</th>
                             <th class="text-center noExport">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var pd in (dynamic)ViewData["view_produk"])
+                        @foreach (var transaction in (dynamic)ViewData["headers"])
                         {
-            <tr>
-                <td>@no</td>
-                <td>@Html.Encode(pd.nama_kategori)</td>
-                <td>@Html.Encode(pd.kode_produk)</td>
-                <td>@Html.Encode(pd.nama_produk)</td>
-                <td>@Html.Encode(pd.harga)</td>
-                <td>@Html.Encode(pd.stok)</td>
-                <td><img src="@Url.Content(@Html.Encode(pd.gambar))" width="40%" class="img-thumbnail"></td>
-                <td class="text-center text-nowrap">
-                    @Html.ActionLink("Edit", "EditProduk", "Produk", new { id = pd.id_produk }, new { @class = "btn btn-primary btn-sm" })
-                    @Html.ActionLink("Delete", "DeleteProduk", "Produk", new { id = pd.id_produk }, new { id = "btndelete", @class = "btn btn-danger btn-sm", onclick = "return confirm('Benar Akan Di Hapus data ini?');" })
-                </td>
-            </tr>
-                            no++;
+                            <tr>
+                                <td class="details-control">
+                                    <img id="imgdetails" src="../Content/Dashboard/img/details_open.png"
+                                         rel="@Html.Encode(transaction.id_transaksi)" alt="expand/collapse" style="cursor:pointer" />
+                                    @Html.Encode(transaction.id_transaksi)
+
+                                </td>
+                                <td>@Html.Encode(transaction.tanggal)</td>
+                                <td>@Html.Encode(transaction.id_customer)</td>
+                                <td>@Html.Encode(transaction.total_belanja)</td>
+                                <td>@Html.Encode(transaction.pajak)</td>
+                                <td>@Html.Encode(transaction.total_bayar)</td>
+                                <td class="text-center text-nowrap">
+                                    <a href="@Url.Action("Edit", "Kategori", new { id = transaction.id_transaksi})" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                    <a href="@Url.Action("Delete", "Kategori", new { id = transaction.id_transaksi})" class="btn btn-danger btn-sm" id="btndelete" onclick="return confirm('Benar Akan Di Hapus data ini?');" data-toggle="tooltip" data-placement="top" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </section>
+

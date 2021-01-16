@@ -14,24 +14,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="produks">
-      <EntityTypeMapping TypeName="mystoreModel.produk">
-        <MappingFragment StoreEntitySet="produk">
-          <ScalarProperty Name="id_kategori" ColumnName="id_kategori" />
-          <ScalarProperty Name="id_produk" ColumnName="id_produk" />
-          <ScalarProperty Name="kode_produk" ColumnName="kode_produk" />
-          <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
-          <ScalarProperty Name="keterangan" ColumnName="keterangan" />
-          <ScalarProperty Name="harga" ColumnName="harga" />
-          <ScalarProperty Name="stok" ColumnName="stok" />
-          <ScalarProperty Name="gambar" ColumnName="gambar" />
-          <ScalarProperty Name="user_insert" ColumnName="user_insert" />
-          <ScalarProperty Name="insert_date" ColumnName="insert_date" />
-          <ScalarProperty Name="user_update" ColumnName="user_update" />
-          <ScalarProperty Name="update_date" ColumnName="update_date" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="users">
       <EntityTypeMapping TypeName="mystoreModel.user">
         <MappingFragment StoreEntitySet="users">
@@ -69,6 +51,75 @@
           <ScalarProperty Name="alamat" ColumnName="alamat" />
           <ScalarProperty Name="nama_perusahaan" ColumnName="nama_perusahaan" />
           <ScalarProperty Name="id_perusahaan" ColumnName="id_perusahaan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="transaksi_detail">
+      <EntityTypeMapping TypeName="mystoreModel.transaksi_detail">
+        <MappingFragment StoreEntitySet="transaksi_detail">
+          <ScalarProperty Name="jumlah" ColumnName="jumlah" />
+          <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+          <ScalarProperty Name="id_transaksi_detail" ColumnName="id_transaksi_detail" />
+          <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="transaksi_header">
+      <EntityTypeMapping TypeName="mystoreModel.transaksi_header">
+        <MappingFragment StoreEntitySet="transaksi_header">
+          <ScalarProperty Name="kembalian" ColumnName="kembalian" />
+          <ScalarProperty Name="bayar" ColumnName="bayar" />
+          <ScalarProperty Name="total_bayar" ColumnName="total_bayar" />
+          <ScalarProperty Name="pajak" ColumnName="pajak" />
+          <ScalarProperty Name="total_belanja" ColumnName="total_belanja" />
+          <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+          <ScalarProperty Name="id_customer" ColumnName="id_customer" />
+          <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+          <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="produks">
+      <EntityTypeMapping TypeName="mystoreModel.produk">
+        <MappingFragment StoreEntitySet="produk">
+          <ScalarProperty Name="update_date" ColumnName="update_date" />
+          <ScalarProperty Name="user_update" ColumnName="user_update" />
+          <ScalarProperty Name="insert_date" ColumnName="insert_date" />
+          <ScalarProperty Name="user_insert" ColumnName="user_insert" />
+          <ScalarProperty Name="gambar" ColumnName="gambar" />
+          <ScalarProperty Name="stok" ColumnName="stok" />
+          <ScalarProperty Name="harga" ColumnName="harga" />
+          <ScalarProperty Name="keterangan" ColumnName="keterangan" />
+          <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
+          <ScalarProperty Name="kode_produk" ColumnName="kode_produk" />
+          <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+          <ScalarProperty Name="id_kategori" ColumnName="id_kategori" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="customers">
+      <EntityTypeMapping TypeName="mystoreModel.customer">
+        <MappingFragment StoreEntitySet="customer">
+          <ScalarProperty Name="validasi_user" ColumnName="validasi_user" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="telpon" ColumnName="telpon" />
+          <ScalarProperty Name="alamat" ColumnName="alamat" />
+          <ScalarProperty Name="nama_customer" ColumnName="nama_customer" />
+          <ScalarProperty Name="id_customer" ColumnName="id_customer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="view_transaksi">
+      <EntityTypeMapping TypeName="mystoreModel.view_transaksi">
+        <MappingFragment StoreEntitySet="view_transaksi">
+          <ScalarProperty Name="JumlahUang" ColumnName="JumlahUang" />
+          <ScalarProperty Name="harga" ColumnName="harga" />
+          <ScalarProperty Name="jumlah" ColumnName="jumlah" />
+          <ScalarProperty Name="nama_produk" ColumnName="nama_produk" />
+          <ScalarProperty Name="id_produk" ColumnName="id_produk" />
+          <ScalarProperty Name="id_transaksi" ColumnName="id_transaksi" />
+          <ScalarProperty Name="id_transaksi_detail" ColumnName="id_transaksi_detail" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

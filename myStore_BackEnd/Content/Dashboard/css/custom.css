@@ -1,1 +1,20 @@
 /* your styles go here */
+
+/*td.details-control span {
+    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+tr.shown td.details-control span{
+    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+
+div.slider {
+    display: none;
+}
+
+table.dataTable tbody td.no-padding {
+    padding: 0;
+}*/

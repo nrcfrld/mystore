@@ -11,26 +11,7 @@
     <Property Name="insert_date" Type="DateTime" Precision="3" />
     <Property Name="user_update" Type="Int32" />
     <Property Name="update_date" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="produks" Relationship="Self.FK_produk_kategori1" FromRole="kategori" ToRole="produk" />
-  </EntityType>
-  <EntityType Name="produk">
-    <Key>
-      <PropertyRef Name="id_kategori" />
-      <PropertyRef Name="id_produk" />
-    </Key>
-    <Property Name="id_kategori" Type="Int32" Nullable="false" />
-    <Property Name="id_produk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="stok" Type="Int32" />
-    <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="user_insert" Type="Int32" />
-    <Property Name="insert_date" Type="DateTime" Precision="3" />
-    <Property Name="user_update" Type="Int32" />
-    <Property Name="update_date" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="kategori" Relationship="Self.FK_produk_kategori1" FromRole="produk" ToRole="kategori" />
+    <NavigationProperty Name="produks" Relationship="mystoreModel.FK_produk_kategori1" FromRole="kategori" ToRole="produk" />
   </EntityType>
   <EntityType Name="user">
     <Key>
@@ -59,30 +40,28 @@
     <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
-  <Association Name="FK_produk_kategori1">
-    <End Role="kategori" Type="Self.kategori" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="produk" Type="Self.produk" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="kategori">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="produk">
-        <PropertyRef Name="id_kategori" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="mystoreEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="kategoris" EntityType="Self.kategori" />
-    <EntitySet Name="produks" EntityType="Self.produk" />
     <EntitySet Name="users" EntityType="Self.user" />
     <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" />
-    <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
+    <EntitySet Name="perusahaans" EntityType="mystoreModel.perusahaan" />
+    <EntitySet Name="transaksi_detail" EntityType="mystoreModel.transaksi_detail" />
+    <EntitySet Name="transaksi_header" EntityType="mystoreModel.transaksi_header" />
+    <AssociationSet Name="FK_transaksi_detail_transaksi_header" Association="mystoreModel.FK_transaksi_detail_transaksi_header">
+      <End Role="transaksi_header" EntitySet="transaksi_header" />
+      <End Role="transaksi_detail" EntitySet="transaksi_detail" />
+    </AssociationSet>
+    <EntitySet Name="produks" EntityType="mystoreModel.produk" />
+    <AssociationSet Name="FK_produk_kategori1" Association="mystoreModel.FK_produk_kategori1">
       <End Role="kategori" EntitySet="kategoris" />
       <End Role="produk" EntitySet="produks" />
     </AssociationSet>
-    <EntitySet Name="perusahaans" EntityType="mystoreModel.perusahaan" />
+    <AssociationSet Name="FK_transaksi_detail_produk" Association="mystoreModel.FK_transaksi_detail_produk">
+      <End Role="produk" EntitySet="produks" />
+      <End Role="transaksi_detail" EntitySet="transaksi_detail" />
+    </AssociationSet>
+    <EntitySet Name="customers" EntityType="mystoreModel.customer" />
+    <EntitySet Name="view_transaksi" EntityType="mystoreModel.view_transaksi" />
   </EntityContainer>
   <EntityType Name="perusahaan">
     <Key>
@@ -94,5 +73,116 @@
     <Property Name="telpon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="favicon" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="transaksi_detail">
+    <Key>
+      <PropertyRef Name="id_transaksi_detail" />
+    </Key>
+    <Property Name="id_transaksi" Type="Int32" />
+    <Property Name="id_transaksi_detail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_produk" Type="Int32" />
+    <Property Name="jumlah" Type="Int32" />
+    <NavigationProperty Name="transaksi_header" Relationship="mystoreModel.FK_transaksi_detail_transaksi_header" FromRole="transaksi_detail" ToRole="transaksi_header" />
+    <NavigationProperty Name="produk" Relationship="mystoreModel.FK_transaksi_detail_produk" FromRole="transaksi_detail" ToRole="produk" />
+  </EntityType>
+  <EntityType Name="transaksi_header">
+    <Key>
+      <PropertyRef Name="id_transaksi" />
+    </Key>
+    <Property Name="id_transaksi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tanggal" Type="DateTime" Precision="0" />
+    <Property Name="id_customer" Type="Int32" />
+    <Property Name="keterangan" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="total_belanja" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pajak" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="total_bayar" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="bayar" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="kembalian" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="transaksi_detail" Relationship="mystoreModel.FK_transaksi_detail_transaksi_header" FromRole="transaksi_header" ToRole="transaksi_detail" />
+  </EntityType>
+  <Association Name="FK_transaksi_detail_transaksi_header">
+    <End Type="mystoreModel.transaksi_header" Role="transaksi_header" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="mystoreModel.transaksi_detail" Role="transaksi_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="transaksi_header">
+        <PropertyRef Name="id_transaksi" />
+      </Principal>
+      <Dependent Role="transaksi_detail">
+        <PropertyRef Name="id_transaksi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="produk">
+    <Key>
+      <PropertyRef Name="id_produk" />
+    </Key>
+    <Property Name="id_kategori" Type="Int32" Nullable="false" />
+    <Property Name="id_produk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kode_produk" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="keterangan" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="stok" Type="Int32" />
+    <Property Name="gambar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="user_insert" Type="Int32" />
+    <Property Name="insert_date" Type="DateTime" Precision="3" />
+    <Property Name="user_update" Type="Int32" />
+    <Property Name="update_date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="kategori" Relationship="mystoreModel.FK_produk_kategori1" FromRole="produk" ToRole="kategori" />
+    <NavigationProperty Name="transaksi_detail" Relationship="mystoreModel.FK_transaksi_detail_produk" FromRole="produk" ToRole="transaksi_detail" />
+  </EntityType>
+  <Association Name="FK_produk_kategori1">
+    <End Type="mystoreModel.kategori" Role="kategori" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="mystoreModel.produk" Role="produk" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategori">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="produk">
+        <PropertyRef Name="id_kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transaksi_detail_produk">
+    <End Type="mystoreModel.produk" Role="produk" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="mystoreModel.transaksi_detail" Role="transaksi_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="produk">
+        <PropertyRef Name="id_produk" />
+      </Principal>
+      <Dependent Role="transaksi_detail">
+        <PropertyRef Name="id_produk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="id_customer" />
+    </Key>
+    <Property Name="id_customer" Type="Int32" Nullable="false" />
+    <Property Name="nama_customer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="alamat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="telpon" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="validasi_user" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="view_transaksi">
+    <Key>
+      <PropertyRef Name="id_transaksi_detail" />
+    </Key>
+    <Property Name="id_transaksi_detail" Type="Int32" Nullable="false" />
+    <Property Name="id_transaksi" Type="Int32" />
+    <Property Name="id_produk" Type="Int32" />
+    <Property Name="nama_produk" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="jumlah" Type="Int32" />
+    <Property Name="harga" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="JumlahUang" Type="Decimal" Precision="29" Scale="2" />
   </EntityType>
 </Schema>

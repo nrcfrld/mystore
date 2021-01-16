@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="mystoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="id_customer" />
+    </Key>
+    <Property Name="id_customer" Type="int" Nullable="false" />
+    <Property Name="nama_customer" Type="varchar" MaxLength="50" />
+    <Property Name="alamat" Type="varchar" MaxLength="50" />
+    <Property Name="telpon" Type="varchar" MaxLength="20" />
+    <Property Name="email" Type="varchar" MaxLength="100" />
+    <Property Name="status" Type="int" />
+    <Property Name="validasi_user" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="kategori">
     <Key>
       <PropertyRef Name="id" />
@@ -25,7 +37,6 @@
   </EntityType>
   <EntityType Name="produk">
     <Key>
-      <PropertyRef Name="id_kategori" />
       <PropertyRef Name="id_produk" />
     </Key>
     <Property Name="id_kategori" Type="int" Nullable="false" />
@@ -41,11 +52,34 @@
     <Property Name="user_update" Type="int" />
     <Property Name="update_date" Type="datetime" />
   </EntityType>
+  <EntityType Name="transaksi_detail">
+    <Key>
+      <PropertyRef Name="id_transaksi_detail" />
+    </Key>
+    <Property Name="id_transaksi" Type="int" />
+    <Property Name="id_transaksi_detail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_produk" Type="int" />
+    <Property Name="jumlah" Type="int" />
+  </EntityType>
+  <EntityType Name="transaksi_header">
+    <Key>
+      <PropertyRef Name="id_transaksi" />
+    </Key>
+    <Property Name="id_transaksi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tanggal" Type="date" />
+    <Property Name="id_customer" Type="int" />
+    <Property Name="keterangan" Type="varchar" MaxLength="100" />
+    <Property Name="total_belanja" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="pajak" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="total_bayar" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="bayar" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="kembalian" Type="numeric" Precision="18" Scale="2" />
+  </EntityType>
   <EntityType Name="users">
     <Key>
       <PropertyRef Name="id_user" />
     </Key>
-    <Property Name="id_user" Type="int" Nullable="false" />
+    <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="user_id" Type="varchar" MaxLength="50" />
     <Property Name="user_name" Type="varchar" MaxLength="50" />
     <Property Name="user_pass" Type="nvarchar" MaxLength="100" />
@@ -57,10 +91,9 @@
 warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="view_all_produk">
     <Key>
-      <PropertyRef Name="id" />
       <PropertyRef Name="id_produk" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
     <Property Name="keterangan" Type="text" />
     <Property Name="id_produk" Type="int" Nullable="false" />
     <Property Name="kode_produk" Type="varchar" MaxLength="10" />
@@ -69,6 +102,21 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
     <Property Name="stok" Type="int" />
     <Property Name="gambar" Type="varchar" MaxLength="100" />
     <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+    <Property Name="id" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'mystore.dbo.view_transaksi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="view_transaksi">
+    <Key>
+      <PropertyRef Name="id_transaksi_detail" />
+    </Key>
+    <Property Name="id_transaksi_detail" Type="int" Nullable="false" />
+    <Property Name="id_transaksi" Type="int" />
+    <Property Name="id_produk" Type="int" />
+    <Property Name="nama_produk" Type="varchar" MaxLength="100" />
+    <Property Name="jumlah" Type="int" />
+    <Property Name="harga" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="JumlahUang" Type="numeric" Precision="29" Scale="2" />
   </EntityType>
   <Association Name="FK_produk_kategori1">
     <End Role="kategori" Type="Self.kategori" Multiplicity="1">
@@ -84,14 +132,44 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_transaksi_detail_produk">
+    <End Role="produk" Type="Self.produk" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="transaksi_detail" Type="Self.transaksi_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="produk">
+        <PropertyRef Name="id_produk" />
+      </Principal>
+      <Dependent Role="transaksi_detail">
+        <PropertyRef Name="id_produk" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transaksi_detail_transaksi_header">
+    <End Role="transaksi_header" Type="Self.transaksi_header" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="transaksi_detail" Type="Self.transaksi_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="transaksi_header">
+        <PropertyRef Name="id_transaksi" />
+      </Principal>
+      <Dependent Role="transaksi_detail">
+        <PropertyRef Name="id_transaksi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="mystoreModelStoreContainer">
+    <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="kategori" EntityType="Self.kategori" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="perusahaan" EntityType="Self.perusahaan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="produk" EntityType="Self.produk" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transaksi_detail" EntityType="Self.transaksi_detail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transaksi_header" EntityType="Self.transaksi_header" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="view_all_produk" EntityType="Self.view_all_produk" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
-    [view_all_produk].[id] AS [id], 
     [view_all_produk].[keterangan] AS [keterangan], 
     [view_all_produk].[id_produk] AS [id_produk], 
     [view_all_produk].[kode_produk] AS [kode_produk], 
@@ -99,12 +177,32 @@ warning 6002: The table/view 'mystore.dbo.view_all_produk' does not have a prima
     [view_all_produk].[harga] AS [harga], 
     [view_all_produk].[stok] AS [stok], 
     [view_all_produk].[gambar] AS [gambar], 
-    [view_all_produk].[nama_produk] AS [nama_produk]
+    [view_all_produk].[nama_produk] AS [nama_produk], 
+    [view_all_produk].[id] AS [id]
     FROM [dbo].[view_all_produk] AS [view_all_produk]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="view_transaksi" EntityType="Self.view_transaksi" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [view_transaksi].[id_transaksi_detail] AS [id_transaksi_detail], 
+    [view_transaksi].[id_transaksi] AS [id_transaksi], 
+    [view_transaksi].[id_produk] AS [id_produk], 
+    [view_transaksi].[nama_produk] AS [nama_produk], 
+    [view_transaksi].[jumlah] AS [jumlah], 
+    [view_transaksi].[harga] AS [harga], 
+    [view_transaksi].[JumlahUang] AS [JumlahUang]
+    FROM [dbo].[view_transaksi] AS [view_transaksi]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_produk_kategori1" Association="Self.FK_produk_kategori1">
       <End Role="kategori" EntitySet="kategori" />
       <End Role="produk" EntitySet="produk" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transaksi_detail_produk" Association="Self.FK_transaksi_detail_produk">
+      <End Role="produk" EntitySet="produk" />
+      <End Role="transaksi_detail" EntitySet="transaksi_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transaksi_detail_transaksi_header" Association="Self.FK_transaksi_detail_transaksi_header">
+      <End Role="transaksi_header" EntitySet="transaksi_header" />
+      <End Role="transaksi_detail" EntitySet="transaksi_detail" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

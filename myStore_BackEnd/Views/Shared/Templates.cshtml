@@ -52,39 +52,39 @@
                 <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
                 <ul class="list-unstyled">
                     <li class="active"><a href="@Url.Action("Index", "Dashboard")"><i class="icon-home"></i> Home</a></li>
-                    <li><a href="@Url.Action("Index", "Produk")"><i class="icon-grid"></i> Produk</a></li>
-                    <li><a href="@Url.Action("Index", "Kategori")"><i class="fa fa-bar-chart-o"></i> Kategori</a></li>
-                    <li><a href="@Url.Action("Index", "User")"><i class="fa fa-users"></i> User</a></li>
-                    <li>
-                        <a href="@Url.Action("Index", "Transaksi")">
-                            <i class="fa fa-shopping-cart"></i>
-                            Transaksi
-                        </a>
-                    </li>
+                    @if(Session["user_level"] == "Administrator")
+                    {
+                        <li><a href="@Url.Action("Index", "Produk")"><i class="icon-grid"></i> Produk</a></li>
+                        <li><a href="@Url.Action("Index", "Kategori")"><i class="fa fa-bar-chart-o"></i> Kategori</a></li>
+                        <li><a href="@Url.Action("Index", "User")"><i class="fa fa-users"></i> User</a></li>
+                    }
+                    @if (Session["user_level"] == "Administrator" || Session["user_level"] == "Staf")
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Transaksi")">
+                                <i class="fa fa-shopping-cart"></i>
+                                Transaksi
+                            </a>
+                        </li>
+                    }
                 </ul>
-
-                <span class="heading">Laporan</span>
-                <ul class="list-unstyled">
-                    <li><a href="@Url.Action("Index", "Laporan")"><i class="fa fa-shopping-cart"></i> Laporan Penjualan</a></li>
-                    <li>
-                        <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">
-                            <i class="fa fa-file-o"></i> Laporan Master Data
-                        </a>
-                        <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                            <li><a href="@Url.Action("LaporanKategori", "Laporan")"><i class="fa fa-calculator"></i> Data Kategori</a></li>
-                            <li><a href="@Url.Action("LaporanProduk", "Laporan")"><i class="fa fa-calendar"></i> Data Produk</a></li>
-                            <li><a href="@Url.Action("LaporanUser", "Laporan")"><i class="fa fa-users"></i> Data User</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="@Url.Action("LogOff", "Login")">
-                            <i class="fa fa-sign-out"></i>
-                            Log Off
-                        </a>
-                    </li>
-                </ul>
+                @if (Session["user_level"] == "Accounting")
+                {
+                    <span class="heading">Laporan</span>
+                    <ul class="list-unstyled">
+                        <li><a href="@Url.Action("Index", "Laporan")"><i class="fa fa-shopping-cart"></i> Laporan Penjualan</a></li>
+                        <li>
+                            <a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse">
+                                <i class="fa fa-file-o"></i> Laporan Master Data
+                            </a>
+                            <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
+                                <li><a href="@Url.Action("LaporanKategori", "Laporan")"><i class="fa fa-calculator"></i> Data Kategori</a></li>
+                                <li><a href="@Url.Action("LaporanProduk", "Laporan")"><i class="fa fa-calendar"></i> Data Produk</a></li>
+                                <li><a href="@Url.Action("LaporanUser", "Laporan")"><i class="fa fa-users"></i> Data User</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
             </nav>
 
             <div class="content-inner">

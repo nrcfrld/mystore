@@ -52,6 +52,76 @@ $(document).ready(function () {
     });
 
     // End Untuk Dashboard Produk
+    var otable;
+
+    otable = $('#tbl-transheader').dataTable({
+        "iDisplayLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "dom": 'Bfrtip',
+        "buttons": [
+            {
+                text: 'Tambah Data',
+                action: function (e, dt, node, config) {
+                    $("#addTransaksiModal").modal("show");
+                }
+            }
+        ]
+    });
+
+    $('#tbltransaksi tbody td img').click(function () {
+        var nTr = this.parentNode.parentNode;
+        var transid = $(this).attr("rel");  
+        if (this.src.match('details_close')) {   
+            this.src = "/Content/Dashboard/img/details_open.png";
+            otable.fnClose(nTr); 
+        } else {   
+            this.src = "/Content/Dashboard/img/details_close.png";
+            var url = "Transaksi/ResultDetailView/" + transid;
+            $.get(url, '', function (details) { 
+                otable.fnOpen(nTr, details, 'details');
+            });
+
+        }
+    });
+
+    var otable;
+   
+    $('#tbl-transheader tbody td img').click(function () {
+        console.log(otable);
+        var nTr = this.parentNode.parentNode;
+        var transid = $(this).attr("rel");
+        console.log(transid)    
+        if (this.src.match('details_close')) {
+            this.src = "/Content/Dashboard/img/details_open.png";
+            otable.fnClose(nTr);
+        } else {
+            this.src = "/Content/Dashboard/img/details_close.png";
+            var url = "Transaksi/ResultDetailView/" + transid;
+            $.get(url, '', function (details) {
+                otable.fnOpen(nTr, details, 'details');
+            });
+
+        }
+    });
+
+    $("#transproduk").change(function () {
+        var id = $(this).val();
+        $.ajax({
+            url: 'Transaksi/getHargaProduk/' + id,
+            type: 'get',
+            dataType: 'json',
+            success: function (response) {
+                var len = response.length;
+
+                $("#transharga").empty();
+                $("#lbltransharga").empty();
+                $("#lbltransharga").val(response['harga']);
+                $("#transharga").val(response['harga']);
+            }
+        });
+    });
+
+    
 
     // ------------------------------------------------------- //
     // Search Box
